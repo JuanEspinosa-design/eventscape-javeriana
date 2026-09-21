@@ -26,8 +26,8 @@ const AGE_FILTERS = [
 ];
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search.q === "string" ? search.q : "",
+  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
+    q: typeof search["q"] === "string" ? (search["q"] as string) : undefined,
   }),
   head: () => ({
     meta: [
@@ -88,13 +88,13 @@ function Countdown({ date }: { date: string }) {
 }
 
 function Cartelera() {
-  const { q } = Route.useSearch();
+  const q = Route.useSearch().q ?? "";
   const [category, setCategory] = useState<Category | "Todas">("Todas");
   const [maxPrice, setMaxPrice] = useState(100);
   const [fromDate, setFromDate] = useState("");
   const [ageFilter, setAgeFilter] = useState("todas");
 
-  const featured = EVENTS.find((event) => event.featured) ?? EVENTS[0];
+  const featured = (EVENTS.find((event) => event.featured) ?? EVENTS[0])!;
 
   const results = useMemo(() => {
     const term = q.trim().toLowerCase();
