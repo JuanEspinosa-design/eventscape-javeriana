@@ -26,9 +26,10 @@ const AGE_FILTERS = [
 ];
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
-    q: typeof search["q"] === "string" ? (search["q"] as string) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { q?: string } => {
+    const q = search["q"];
+    return typeof q === "string" && q.length > 0 ? { q } : {};
+  },
   head: () => ({
     meta: [
       { title: "Cartelera cultural | EventHub Javeriana" },
