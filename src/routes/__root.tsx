@@ -127,8 +127,19 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <RoleProvider>
+        <div className="min-h-screen bg-background">
+          <SiteHeader />
+          <main>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+          <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
+            EventHub Javeriana · Sistema de gestión y reserva de eventos culturales del campus
+          </footer>
+        </div>
+        <Toaster richColors position="top-right" />
+      </RoleProvider>
     </QueryClientProvider>
   );
 }
