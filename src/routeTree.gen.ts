@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PanelRouteImport } from './routes/panel'
 import { Route as VerificacionRouteImport } from './routes/verificacion'
+import { Route as EventosEventIdRouteImport } from './routes/eventos.$eventId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const VerificacionRoute = VerificacionRouteImport.update({
   path: '/verificacion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventosEventIdRoute = EventosEventIdRouteImport.update({
+  id: '/eventos/$eventId',
+  path: '/eventos/$eventId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/panel': typeof PanelRoute
   '/verificacion': typeof VerificacionRoute
+  '/eventos/$eventId': typeof EventosEventIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/panel': typeof PanelRoute
   '/verificacion': typeof VerificacionRoute
+  '/eventos/$eventId': typeof EventosEventIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/panel': typeof PanelRoute
   '/verificacion': typeof VerificacionRoute
+  '/eventos/$eventId': typeof EventosEventIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/panel' | '/verificacion'
+  fullPaths: '/' | '/panel' | '/verificacion' | '/eventos/$eventId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/panel' | '/verificacion'
-  id: '__root__' | '/' | '/panel' | '/verificacion'
+  to: '/' | '/panel' | '/verificacion' | '/eventos/$eventId'
+  id: '__root__' | '/' | '/panel' | '/verificacion' | '/eventos/$eventId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PanelRoute: typeof PanelRoute
   VerificacionRoute: typeof VerificacionRoute
+  EventosEventIdRoute: typeof EventosEventIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerificacionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/eventos/$eventId': {
+      id: '/eventos/$eventId'
+      path: '/eventos/$eventId'
+      fullPath: '/eventos/$eventId'
+      preLoaderRoute: typeof EventosEventIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PanelRoute: PanelRoute,
   VerificacionRoute: VerificacionRoute,
+  EventosEventIdRoute: EventosEventIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
